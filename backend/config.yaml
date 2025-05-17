@@ -1,0 +1,2 @@
+jwt:
+  secret: "1234567890qwerty"

@@ -1,5 +1,5 @@
 # backend/Dockerfile
-FROM golang:1.21
+FROM golang:1.23
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o /app/main ./cmd
+RUN go build -o /app/main .
 
 EXPOSE 8080
 
