@@ -1,0 +1,397 @@
+definitions:
+  viewmodel.RequestRes:
+    properties:
+      date:
+        type: string
+      end_time:
+        type: string
+      location:
+        type: string
+      request_id:
+        type: integer
+      requested_at:
+        type: string
+      role:
+        type: string
+      shift_id:
+        type: integer
+      start_time:
+        type: string
+      status:
+        type: string
+      username:
+        type: string
+    type: object
+  viewmodel.ShiftReq:
+    properties:
+      date:
+        type: string
+      end_time:
+        type: string
+      location:
+        type: string
+      role:
+        type: string
+      start_time:
+        type: string
+    type: object
+  viewmodel.ShiftRequestReq:
+    properties:
+      shift_id:
+        type: integer
+      worker_id:
+        type: integer
+    required:
+    - shift_id
+    - worker_id
+    type: object
+  viewmodel.ShiftRes:
+    properties:
+      date:
+        type: string
+      end_time:
+        type: string
+      id:
+        type: integer
+      location:
+        type: string
+      role:
+        type: string
+      start_time:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/request:
+    post:
+      consumes:
+      - application/json
+      description: Submit a shift request
+      parameters:
+      - description: Shift Request Payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/viewmodel.ShiftRequestReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create Shift Request
+      tags:
+      - worker
+  /api/requests/{id}/approve:
+    post:
+      consumes:
+      - application/json
+      description: Approve a shift request by ID
+      parameters:
+      - description: Request ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Approve Shift Request
+      tags:
+      - admin
+  /api/requests/{id}/reject:
+    post:
+      consumes:
+      - application/json
+      description: Reject a shift request by ID
+      parameters:
+      - description: Request ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Reject Shift Request
+      tags:
+      - admin
+  /api/requests/{worker_id}:
+    get:
+      consumes:
+      - application/json
+      description: Returns all shift requests made by a specific worker
+      parameters:
+      - description: Worker ID
+        in: path
+        name: worker_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/viewmodel.RequestRes'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Worker Requests
+      tags:
+      - worker
+  /api/requests/pending:
+    get:
+      consumes:
+      - application/json
+      description: Returns all pending shift requests
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/viewmodel.RequestRes'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Pending Requests
+      tags:
+      - admin
+  /api/shifts:
+    post:
+      consumes:
+      - application/json
+      description: Create a new shift
+      parameters:
+      - description: Shift Payload
+        in: body
+        name: shift
+        required: true
+        schema:
+          $ref: '#/definitions/viewmodel.ShiftReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create Shift
+      tags:
+      - admin
+  /api/shifts/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing shift
+      parameters:
+      - description: Shift ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete Shift
+      tags:
+      - admin
+    put:
+      consumes:
+      - application/json
+      description: Edit an existing shift
+      parameters:
+      - description: Shift ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Shift Payload
+        in: body
+        name: shift
+        required: true
+        schema:
+          $ref: '#/definitions/viewmodel.ShiftReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Edit Shift
+      tags:
+      - admin
+  /api/shifts/assigned/{worker_id}:
+    get:
+      consumes:
+      - application/json
+      description: Returns shifts assigned to a specific worker
+      parameters:
+      - description: Worker ID
+        in: path
+        name: worker_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/viewmodel.ShiftRes'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Assigned Shifts
+      tags:
+      - worker
+  /api/shifts/available:
+    get:
+      consumes:
+      - application/json
+      description: Returns all available shifts
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/viewmodel.ShiftRes'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Available Shifts
+      tags:
+      - worker
+swagger: "2.0"
