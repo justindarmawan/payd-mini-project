@@ -19,7 +19,7 @@ A web application for managing employee shifts with separate interfaces for work
 
 - Go 1.23+
 - Docker & Docker Compose
-- Node.js (for frontend dev)
+- Node.js (for frontend development)
 
 ### Run with Docker
 
@@ -27,6 +27,15 @@ A web application for managing employee shifts with separate interfaces for work
 docker-compose up --build
 ```
 
-Backend will be available at: http://localhost:8080
+- Backend will be available at: [http://localhost:8080](http://localhost:8080)
+- Swagger API Docs: [http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html)
 
-Swagger API Docs: http://localhost:8080/swagger/index.html
+### Frontend Login
+
+Frontend will be available at: [http://localhost:3000](http://localhost:3000)
+
+| Role   | Username | Password |
+| ------ | -------- | -------- |
+| Admin  | admin    | admin    |
+| Worker | justin   | user123  |
+| Worker | payd     | user123  |
